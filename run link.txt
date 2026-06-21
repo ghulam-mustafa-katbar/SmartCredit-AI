@@ -1,0 +1,19 @@
+Open your terminal in the d:/SMARTCREDIT AI directory.
+Run docker-compose up --build.
+Open http://localhost:3000 to view the Next.js UI, and http://localhost:8000/docs to view the FastAPI Swagger endpoints.
+
+
+npx plugins add vercel/vercel-plugin
+
+
+#Gm338886KaT
+
+SECRET_KEY: 76151724b4feeeef9fd98b9595ef1132fda801346757e38dca12b77f268d1a60
+
+
+In frontend .env.local
+NEXT_PUBLIC_API_URL=https://smartcredit-ai-zqhj.onrender.com
+
+
+NEXT_PUBLIC_SUPABASE_URL=https://uduvlyzesnyukpmqldcg.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_HzH0MMkPArLPY0_UvX_XWA_F8WgEG-Y
