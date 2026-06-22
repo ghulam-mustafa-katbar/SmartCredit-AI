@@ -1,10 +1,17 @@
-// Use environment variable, fallback to production backend. No localhost fallback.
-let API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://smartcredit-ai-zqhj.onrender.com/api/v1';
+// Get raw env var or fallback to production backend.
+let rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://smartcredit-ai-zqhj.onrender.com';
 
-// Failsafe: If somehow Vercel env var is still stuck on localhost but we are in production
-if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && API_BASE_URL.includes('localhost')) {
-  API_BASE_URL = 'https://smartcredit-ai-zqhj.onrender.com/api/v1';
+// CRITICAL FIX: NEVER allow localhost or 127.0.0.1 in production Vercel builds.
+if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+  if (rawBaseUrl.includes('localhost') || rawBaseUrl.includes('127.0.0.1')) {
+    rawBaseUrl = 'https://smartcredit-ai-zqhj.onrender.com';
+  }
 }
+
+// Ensure base URL doesn't have a trailing slash or duplicated /api/v1
+rawBaseUrl = rawBaseUrl.replace(/\/api\/v1\/?$/, '').replace(/\/$/, '');
+
+const API_BASE_URL = `${rawBaseUrl}/api/v1`;
 export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
   const token = localStorage.getItem('token');
   const headers: Record<string, string> = {
