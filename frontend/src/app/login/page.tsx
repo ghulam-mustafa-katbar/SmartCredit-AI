@@ -46,7 +46,7 @@ export default function LoginPage() {
       }
     } catch (err: any) {
       if (err.message === 'Failed to fetch') {
-        setError('Cannot connect to the backend API. Please ensure the backend server is running on localhost:8000 or NEXT_PUBLIC_API_URL is set.');
+        setError('Cannot connect to the backend API. Please ensure the backend server is running and NEXT_PUBLIC_API_URL is configured correctly.');
       } else {
         setError(err.message || 'Failed to log in');
       }
