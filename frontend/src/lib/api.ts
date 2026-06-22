@@ -1,10 +1,10 @@
 // Get raw env var or fallback to production backend.
-let rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://smartcredit-ai-zqhj.onrender.com';
+let rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://smartcredit-ai-qdsf.onrender.com';
 
 // CRITICAL FIX: NEVER allow localhost or 127.0.0.1 in production Vercel builds.
 if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
   if (rawBaseUrl.includes('localhost') || rawBaseUrl.includes('127.0.0.1')) {
-    rawBaseUrl = 'https://smartcredit-ai-zqhj.onrender.com';
+    rawBaseUrl = 'https://smartcredit-ai-qdsf.onrender.com';
   }
 }
 
