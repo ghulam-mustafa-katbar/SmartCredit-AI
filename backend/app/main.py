@@ -29,9 +29,16 @@ app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS configuration
+# Using specific origins instead of '*' when allow_credentials=True
+origins = [
+    "http://localhost:3000", # Local development
+    "https://smart-credit-70mgoz6de-ghulam-mustafa-katbars-projects.vercel.app", # Vercel preview
+    "https://smartcredit-ai.vercel.app", # Vercel production (example)
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Update this in production
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
