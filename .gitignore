@@ -4,3 +4,10 @@ node_modules
 SMARTCREDIT/  
 [backend 
 .env
+
+# Python ignores
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/

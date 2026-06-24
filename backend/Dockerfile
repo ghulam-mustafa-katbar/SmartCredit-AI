@@ -16,5 +16,5 @@ RUN pip install --default-timeout=1000 --retries=10 --no-cache-dir xgboost sciki
 RUN pip install --default-timeout=1000 --retries=10 --no-cache-dir -r requirements.txt
 
 COPY . .
-
-CMD gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000}
+# Run database migrations and then start the server with 1 worker to prevent OOM on Render free tier
+CMD alembic upgrade head && gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000}
