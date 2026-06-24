@@ -10,8 +10,22 @@ from app.core.ml_model import ml_engine
 
 limiter = Limiter(key_func=get_remote_address)
 
+from urllib.parse import urlparse
+from app.core.database import check_db_connection
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Parse and log database host for debugging Supabase connection issues
+    parsed_db = urlparse(settings.DATABASE_URL)
+    logger.info(f"Starting up. Configured Database Host: {parsed_db.hostname}, Port: {parsed_db.port}")
+    
+    if "pooler.supabase.com" not in str(parsed_db.hostname):
+        logger.warning("WARNING: You are NOT using the Supabase Connection Pooler! If deployed on Render, direct connections to db.*.supabase.co will fail because Supabase deprecated IPv4. Please update DATABASE_URL to use the Connection Pooler (aws-0-*.pooler.supabase.com).")
+        
+    db_ok = await check_db_connection()
+    if not db_ok:
+        logger.error("Failed to connect to the database on startup. Endpoints that require DB access will fail.")
+
     # Load the ML model on startup
     ml_engine.load_models()
     yield
