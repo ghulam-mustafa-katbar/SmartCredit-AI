@@ -28,13 +28,29 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+import logging
+import time
+from fastapi.responses import JSONResponse
+
+# Setup basic logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Request logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    origin = request.headers.get("origin", "unknown")
+    logger.info(f"Incoming request: {request.method} {request.url.path} from Origin: {origin}")
+    
+    response = await call_next(request)
+    
+    process_time = time.time() - start_time
+    logger.info(f"Completed {response.status_code} OK in {process_time:.2f}s")
+    return response
+
 # CORS configuration
-# Using specific origins instead of '*' when allow_credentials=True
-origins = [
-    "http://localhost:3000", # Local development
-    "https://smart-credit-70mgoz6de-ghulam-mustafa-katbars-projects.vercel.app", # Vercel preview
-    "https://smartcredit-ai.vercel.app", # Vercel production (example)
-]
+origins = settings.get_allowed_origins
 
 app.add_middleware(
     CORSMiddleware,
@@ -44,6 +60,25 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Exception handler to ensure CORS headers are returned on 500 Internal Server Errors
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"Unhandled exception: {exc}", exc_info=True)
+    origin = request.headers.get("origin")
+    
+    headers = {}
+    if origin:
+        # Check if origin is allowed
+        if origin in origins or "vercel.app" in origin:
+            headers["Access-Control-Allow-Origin"] = origin
+            headers["Access-Control-Allow-Credentials"] = "true"
+            
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error", "message": str(exc)},
+        headers=headers
+    )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
