@@ -1,17 +1,16 @@
 services:
   - type: web
     name: smartcredit-backend
-    runtime: docker
-    # Root directory is backend/ — so Docker context = backend/
-    # COPY requirements.txt, COPY . . all resolve correctly
+    runtime: python
     rootDir: backend
-    dockerfilePath: Dockerfile
+    buildCommand: pip install -r requirements.txt
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
         sync: false
       - key: SECRET_KEY
         sync: false
       - key: ALLOWED_ORIGINS
-        value: "https://smart-credit-ai-one.vercel.app,https://smart-credit-ai-pearl.vercel.app"
-      - key: PORT
-        value: "8000"
+        value: "https://smart-credit-ai-one.vercel.app,https://smart-credit-ai-pearl.vercel.app,http://localhost:3000"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
