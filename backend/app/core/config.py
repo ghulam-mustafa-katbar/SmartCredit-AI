@@ -22,7 +22,13 @@ class Settings(BaseSettings):
 
     @property
     def ASYNC_DATABASE_URL(self) -> str:
-        return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+        # Replace sync driver with async driver for SQLAlchemy async engine
+        url = self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+        # asyncpg uses ?ssl=require instead of ?sslmode=require
+        url = url.replace("?sslmode=require", "")
+        if "pooler.supabase.com" in url and "ssl" not in url:
+            url = url + "?ssl=true"
+        return url
 
     class Config:
         case_sensitive = True

@@ -8,20 +8,29 @@ import sys
 # Add backend directory to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from app.core.config import settings
-from app.models import *  # This loads all models
-from app.core.database import Base
-
 config = context.config
 
 # Interpret the config file for Python logging.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+# Import models AFTER sys.path is set
+from app.models import *  # This loads all models
+from app.core.database import Base
+
 target_metadata = Base.metadata
 
 def get_url():
-    return settings.DATABASE_URL
+    # Read directly from environment variable — this ensures the correct pooler URL is used
+    url = os.environ.get("DATABASE_URL")
+    if not url:
+        # Fallback: try to load from pydantic settings
+        from app.core.config import settings
+        url = settings.DATABASE_URL
+    if not url:
+        raise RuntimeError("DATABASE_URL is not set! Cannot run migrations.")
+    print(f"[Alembic] Connecting to: {url.split('@')[-1]}")  # Log host only for security
+    return url
 
 def run_migrations_offline() -> None:
     url = get_url()
