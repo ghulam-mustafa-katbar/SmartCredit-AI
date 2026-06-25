@@ -2,8 +2,10 @@ services:
   - type: web
     name: smartcredit-backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
+    # Root directory is backend/ — so Docker context = backend/
+    # COPY requirements.txt, COPY . . all resolve correctly
+    rootDir: backend
+    dockerfilePath: Dockerfile
     envVars:
       - key: DATABASE_URL
         sync: false
