@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smartcredit-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: "https://smart-credit-ai-one.vercel.app,https://smart-credit-ai-pearl.vercel.app"
+      - key: PORT
+        value: "8000"
