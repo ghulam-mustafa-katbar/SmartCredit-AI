@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres%2Emeiybbpcneynddjwzrcy:gVhA5zT41Huk78YK@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres%2Emeiybbpcneynddjwzrcy:wdIgH0oEW97onJME@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres")
     REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     
     # CORS Origins

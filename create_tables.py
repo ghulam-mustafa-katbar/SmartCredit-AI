@@ -6,7 +6,7 @@ import os
 import sys
 
 # Set environment BEFORE any imports
-POOLER_URL = "postgresql://postgres.meiybbpcneynddjwzrcy:u2330cIIoQC8qR7X@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
+POOLER_URL = "postgresql://postgres.meiybbpcneynddjwzrcy:wdIgH0oEW97onJME@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
 os.environ["DATABASE_URL"] = POOLER_URL
 
 # Add backend to path
