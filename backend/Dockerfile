@@ -2,20 +2,20 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install system dependencies for psycopg2
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 # Copy requirements first (Docker layer caching)
 COPY requirements.txt .
 
-# Pre-install heavy ML packages so Docker caches this layer separately
-RUN pip install --default-timeout=1000 --retries=10 --no-cache-dir \
-    xgboost scikit-learn pandas numpy shap
+# Install heavy ML packages sequentially using --prefer-binary.
+# This prevents pip from running out of memory (OOM) on resource-constrained build servers.
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --prefer-binary numpy==1.26.4 && \
+    pip install --no-cache-dir --prefer-binary pandas==2.2.1 && \
+    pip install --no-cache-dir --prefer-binary scikit-learn==1.4.1.post1 && \
+    pip install --no-cache-dir --prefer-binary xgboost==2.0.3 && \
+    pip install --no-cache-dir --prefer-binary shap==0.45.0
 
 # Install remaining backend requirements
-RUN pip install --default-timeout=1000 --retries=10 --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 # Copy all backend source code
 COPY . .
