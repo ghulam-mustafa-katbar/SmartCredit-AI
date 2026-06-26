@@ -22,5 +22,8 @@ DATABASE_URL postgresql://postgres:[YOUR-PASSWORD]@db.uduvlyzesnyukpmqldcg.supab
 
 SUPABASE_URL=https://uduvlyzesnyukpmqldcg.supabase.co
 SUPABASE_PUBLISHABLE_KEY=sb_publishable_HzH0MMkPArLPY0_UvX_XWA_F8WgEG-Y
+
+
+8tC-vpeAK9FLrP?
 SUPABASE_SECRET_KEY=[REMOVED_FOR_SECURITY]
 SUPABASE_JWKS_URL=https://uduvlyzesnyukpmqldcg.supabase.co/auth/v1/.well-known/jwks.json
