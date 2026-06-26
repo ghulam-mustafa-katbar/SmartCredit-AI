@@ -2,7 +2,7 @@ import os
 import sys
 
 # MUST be set BEFORE any imports that touch pydantic Settings
-POOLER_URL = "postgresql://postgres.meiybbpcneynddjwzrcy:wdIgH0oEW97onJME@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
+POOLER_URL = "postgresql://postgres.meiybbpcneynddjwzrcy:dJoVNBJbUPFm0FKd@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
 os.environ["DATABASE_URL"] = POOLER_URL
 
 # Change to backend dir so alembic.ini is found

@@ -2,7 +2,7 @@ import os
 import sys
 
 # Set the working DATABASE_URL using the Supabase Session Pooler (IPv4, works on Render)
-os.environ["DATABASE_URL"] = "postgresql://postgres.meiybbpcneynddjwzrcy:wdIgH0oEW97onJME@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
+os.environ["DATABASE_URL"] = "postgresql://postgres.meiybbpcneynddjwzrcy:dJoVNBJbUPFm0FKd@aws-1-ap-northeast-2.pooler.supabase.com:5432/postgres"
 
 import psycopg2
 
@@ -12,7 +12,7 @@ try:
         host="aws-1-ap-northeast-2.pooler.supabase.com",
         port=5432,
         user="postgres.meiybbpcneynddjwzrcy",
-        password="wdIgH0oEW97onJME",
+        password="dJoVNBJbUPFm0FKd",
         dbname="postgres",
         sslmode="require",
         connect_timeout=10

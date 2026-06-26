@@ -6,7 +6,7 @@ from urllib.parse import quote_plus
 host = "aws-1-ap-northeast-2.pooler.supabase.com"
 port = 5432
 user = "postgres.meiybbpcneynddjwzrcy"
-password = "wdIgH0oEW97onJME"
+password = "dJoVNBJbUPFm0FKd"
 dbname = "postgres"
 
 # Method 1: DSN string
